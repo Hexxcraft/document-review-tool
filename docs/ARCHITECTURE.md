@@ -85,7 +85,25 @@ version, focus, window-management, and lifetime constraints.
 The assistant drawer uses the public Copilot website rather than a model SDK or
 an API key. Website UI changes and sign-in requirements can affect that workflow.
 
-### 5. Build context and read structured suggestions
+### 5. Connect the Copilot round trip
+
+The integration coordinates native workspace state with a browser session rather
+than calling a model API:
+
+1. **Resolve and attach:** `AttachFileToCopilotAsync` in
+   [WorkspaceWindow](../Windows/WorkspaceWindow.xaml.cs) materializes a stored file
+   when needed, prepares Windows clipboard data, and attempts browser upload
+   automation. Its fallback can leave the file ready for manual paste rather
+   than prove upload completion.
+2. **Build and submit:** action handlers construct task-specific context and call
+   `SendPromptToCopilotAsync`. WebView2 script execution attempts composer
+   insertion and send-button interaction; the prompt is also copied to the clipboard.
+3. **Monitor and parse:** audit and date-extraction actions start
+   `MonitorAndAutoApplyCopilotUpdatesAsync`, which polls for a structured response
+   for a bounded period.
+4. **Apply:** detected supported updates go through `ApplySuggestedFieldsAndDates`.
+   A separate manual action can read browser output or the clipboard. Automatic
+   application is not a human approval gate.
 
 [CopilotContextBuilder](../Services/CopilotContextBuilder.cs) assembles review prompts
 from current fields, file names, conflicts, tracker context, and editable criteria.
@@ -95,6 +113,13 @@ The parser scans newer blocks first, filters known prompt-template markers, and
 extracts supported fields. This helps distinguish a final answer from an echoed
 template; it does not guarantee that extracted facts are correct or establish a
 security boundary against untrusted document instructions.
+
+**Boundary and reliability:** this is the public Copilot website in WebView2,
+not the installed Windows Copilot application or a Copilot/model SDK. Authentication,
+upload availability, page structure, and model behavior belong to the external
+service. A visible prompt or prepared clipboard is not evidence of a successful
+attachment, completed review, or correct extraction. Confirm source evidence and
+attachment state, and use only authorized data.
 
 ## Trade-offs and next steps
 

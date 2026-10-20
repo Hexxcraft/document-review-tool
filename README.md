@@ -11,13 +11,22 @@
 
 # Hexxcorp Document Review Utility
 
-**A Windows desktop workspace that brings document comparison, date checks, work history, and review tools into one place.**
+**A C#/.NET desktop workspace that connects document review with Microsoft Copilot: prepare context, attach evidence, and bring structured results back into the app.**
 
 Designed and built by **[Dillon O'Leary (@Hexxcraft)](https://github.com/Hexxcraft)**.
 A C#/.NET engineering portfolio project centered on a practical workflow problem:
-keeping the evidence and context for a document review together.
+keeping evidence, review context, and assistant-assisted data entry in one workflow.
 
-[See the app](#see-the-app) · [Run locally](#run-locally) · [Try the demo](docs/DEMO.md) · [Engineering walkthrough](docs/ARCHITECTURE.md)
+[Copilot workflow](#copilot-integration-more-than-a-chat-panel) · [See the app](#see-the-app) · [Run locally](#run-locally) · [Try the demo](docs/DEMO.md) · [Engineering walkthrough](docs/ARCHITECTURE.md)
+
+### At a glance
+
+- **Desktop engineering:** a persistent PDF/image canvas, shared date/history tools,
+  and optional native Word/Excel integration.
+- **Copilot workflow integration:** document-attachment automation, context-aware
+  prompt submission, response monitoring, and structured field updates.
+- **Practical delivery:** synthetic demo assets, a source-level engineering
+  walkthrough, and a verified Windows CI build.
 
 ## The problem
 
@@ -37,9 +46,44 @@ criteria for additional review requirements.
 | Repeating date calculations | A shared date calculator, rolling date references, and visual date-field checks |
 | Double-counting overlapping work history | Employment-history calculations that merge overlapping intervals before totaling months |
 | Switching tools to work on supporting files | Optional embedded Word and Excel drawers, with pop-out windows |
-| Rebuilding assistant context by hand | Review prompts assembled from workspace context and editable criteria, plus structured-response parsing |
+| Copying evidence and results between the app and chat | Copilot attachment/prompt automation and structured results mapped back into workspace fields |
 
 These are implemented capabilities, not measured productivity or accuracy claims.
+
+## Copilot integration: more than a chat panel
+
+**The engineering work is the round trip between a desktop review session and
+Copilot, not just embedding a website.**
+
+![Close-up of actual Assistant controls: audit, summarize, draft notes, gather dates, and apply suggestions](docs/images/assistant-controls.png)
+
+*Actual WPF Assistant toolbar, not a live conversation or a claimed successful
+response. No account, chat history, or personal records were used for the capture.*
+
+![Copilot workflow: prepare evidence, assemble context, submit through WebView2, parse structured results, update the workspace](docs/images/copilot-workflow.svg)
+
+| Stage | What the application does |
+| --- | --- |
+| **1. Prepare evidence** | Resolves a stored document and attempts to attach it through browser automation, with clipboard support for manual attachment |
+| **2. Assemble context** | Builds task-specific prompts from current fields, dates, conflicts, work history, file names, review mode, and editable criteria |
+| **3. Run the review task** | Attempts to insert and submit the prompt to the embedded Copilot website for audits, summaries, review notes, or date extraction |
+| **4. Read structured output** | Monitors responses after audit/date-extraction actions and parses supported `[APP_UPDATE]` JSON blocks, filtering known template echoes |
+| **5. Update the workspace** | Applies supported identifying fields, dates, and employment-history rows; a manual apply action can also read the response or clipboard |
+
+**Why it matters:** it connects review context and structured data entry instead
+of leaving the reviewer to reconstruct a prompt and manually retype every result.
+Audit and date-extraction actions can **automatically apply** detected updates;
+the reviewer must verify them against source documents.
+
+**Integration boundary:** this is the **public Microsoft Copilot website hosted
+in WebView2 inside a native WPF application**. It does not control the installed
+Windows Copilot app, use a Copilot/model SDK, or bundle an API key. Automation
+depends on the website UI, available account features, and sign-in state; attachment
+and submission are not guaranteed. Confirm the intended files are attached before
+relying on a review. Native Word/Excel integration is separate and uses COM/Win32.
+
+[Trace the implementation](docs/ARCHITECTURE.md#5-connect-the-copilot-round-trip) ·
+[Try the optional synthetic-data walkthrough](docs/DEMO.md#optional-copilot-round-trip)
 
 ## See the app
 
@@ -79,7 +123,7 @@ then follow the [architecture walkthrough](docs/ARCHITECTURE.md).
 | Persistence and recovery | [Workspace serialization](Services/WorkspaceFileService.cs), versioned models, embedded file bytes, bounded autosave rotation |
 | Date and interval logic | [Tracker model](Models/TrackerModel.cs), date normalization, interval merging, shared state |
 | Native application integration | [Word controller](Services/EmbeddedWordController.cs), [Excel controller](Services/EmbeddedExcelController.cs), and Win32 window hosting |
-| Browser-assisted workflows | [Prompt building and response parsing](Services/CopilotContextBuilder.cs), WebView2, and tab management |
+| Copilot workflow orchestration | [Attachment, prompt submission, response monitoring, and field updates](Windows/WorkspaceWindow.xaml.cs), plus [context building and structured parsing](Services/CopilotContextBuilder.cs) |
 | Delivery | Windows build workflow, reproducible build commands, a built-in verification mode, and synthetic demo assets |
 
 The implementation uses **WPF code-behind for interaction-heavy workspace behavior**

@@ -17,7 +17,7 @@
     <text x="78" y="74" font-size="16" letter-spacing="4" fill="#e8a0b4">HEXXCORP / ENGINEERING PORTFOLIO</text>
     <text x="56" y="150" font-size="47" font-weight="700" fill="#fffbfc">Less tab switching.</text>
     <text x="56" y="210" font-size="47" font-weight="700" fill="#fffbfc">More review context.</text>
-    <text x="58" y="254" font-size="20" fill="#d3e3dd">Documents. Dates. Work history. One desktop workspace.</text>
+    <text x="58" y="254" font-size="20" fill="#d3e3dd">Documents. Dates. Copilot workflows. One desktop workspace.</text>
     <g font-size="14" fill="#fffbfc">
       <rect x="58" y="286" width="66" height="32" rx="16" fill="#ffffff" fill-opacity=".1"/>
       <text x="80" y="307">C#</text>

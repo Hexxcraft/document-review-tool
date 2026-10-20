@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="title desc">
+  <title id="title">From review evidence to structured workspace updates</title>
+  <desc id="desc">Five stages: prepare evidence, assemble context, submit to the Copilot website through WebView2, parse supported structured output, and update the workspace. Conceptual workflow, not a live execution trace.</desc>
+  <rect width="1280" height="320" rx="18" fill="#102b26"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <text x="32" y="43" font-size="15" letter-spacing="3" fill="#e8a0b4">COPILOT WORKFLOW / NATIVE WPF WORKSPACE</text>
+    <text x="32" y="80" font-size="27" font-weight="700" fill="#fffbfc">Evidence in. Review context across. Structured results back.</text>
+    <g fill="#285a4e" stroke="#53786b">
+      <rect x="32" y="110" width="224" height="130" rx="10"/>
+      <rect x="280" y="110" width="224" height="130" rx="10"/>
+      <rect x="528" y="110" width="224" height="130" rx="10"/>
+      <rect x="776" y="110" width="224" height="130" rx="10"/>
+      <rect x="1024" y="110" width="224" height="130" rx="10"/>
+    </g>
+    <g fill="#e8a0b4" font-size="13" font-weight="700">
+      <text x="48" y="137">01 / EVIDENCE</text>
+      <text x="296" y="137">02 / CONTEXT</text>
+      <text x="544" y="137">03 / COPILOT WEBSITE</text>
+      <text x="792" y="137">04 / STRUCTURED OUTPUT</text>
+      <text x="1040" y="137">05 / WORKSPACE</text>
+    </g>
+    <g fill="#fffbfc" font-size="19" font-weight="600">
+      <text x="48" y="171">Prepare attachment</text>
+      <text x="296" y="171">Build review prompt</text>
+      <text x="544" y="171">Submit via WebView2</text>
+      <text x="792" y="171">Monitor + parse</text>
+      <text x="1040" y="171">Apply supported data</text>
+    </g>
+    <g fill="#d3e3dd" font-size="14">
+      <text x="48" y="201">Stored document bytes</text>
+      <text x="48" y="222">Automation + clipboard</text>
+      <text x="296" y="201">Fields, history, criteria</text>
+      <text x="296" y="222">Task-specific context</text>
+      <text x="544" y="201">Audit, summarize, extract</text>
+      <text x="544" y="222">External service boundary</text>
+      <text x="792" y="201">[APP_UPDATE] JSON</text>
+      <text x="792" y="222">Known template filtering</text>
+      <text x="1040" y="201">Fields, dates, history rows</text>
+      <text x="1040" y="222">Verify against source</text>
+    </g>
+    <path d="M260 175h16m-6-5 6 5-6 5M508 175h16m-6-5 6 5-6 5M756 175h16m-6-5 6 5-6 5M1004 175h16m-6-5 6 5-6 5" fill="none" stroke="#e8a0b4" stroke-width="2"/>
+    <text x="32" y="279" font-size="14" fill="#d3e3dd">Conceptual flow, not a live trace. Website automation is best-effort. Audit/date extraction can auto-apply; human verification remains necessary.</text>
+  </g>
+</svg>
