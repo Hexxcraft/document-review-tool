@@ -1,0 +1,33 @@
+<UserControl x:Class="HexxcorpDocumentReviewUtility.Controls.PdfBoxControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Focusable="True"
+             KeyboardNavigation.IsTabStop="True">
+    <Grid Background="#FF374151">
+        <ScrollViewer x:Name="PdfScrollViewer"
+                      CanContentScroll="False"
+                      Focusable="True"
+                      HorizontalScrollBarVisibility="Auto"
+                      MouseEnter="PdfScrollViewer_MouseEnter"
+                      PreviewKeyDown="PdfScrollViewer_PreviewKeyDown"
+                      PreviewMouseWheel="PdfScrollViewer_PreviewMouseWheel"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="PagesPanel" Background="#FF4B5563" HorizontalAlignment="Left">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform x:Name="PagesScale" />
+                </StackPanel.LayoutTransform>
+            </StackPanel>
+        </ScrollViewer>
+
+        <TextBlock x:Name="StatusText"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="12"
+                   Foreground="{StaticResource WhiteBrush}"
+                   Text="Loading PDF..."
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   Visibility="Collapsed"
+                   Width="200" />
+    </Grid>
+</UserControl>

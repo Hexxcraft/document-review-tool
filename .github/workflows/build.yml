@@ -1,0 +1,27 @@
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: .NET 8 / WPF / Release
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore packages
+        run: dotnet restore HexxcorpDocumentReviewUtility.csproj
+      - name: Build release
+        run: dotnet build HexxcorpDocumentReviewUtility.csproj --configuration Release --no-restore

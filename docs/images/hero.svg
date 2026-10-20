@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="title desc">
+  <title id="title">Hexxcorp Document Review Utility</title>
+  <desc id="desc">A Windows desktop workspace for documents, dates, and review context. Built by Dillon O'Leary using C#, .NET 8, and WPF.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop stop-color="#102b26"/>
+      <stop offset="1" stop-color="#285a4e"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#fff" stroke-opacity=".035"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="420" rx="20" fill="url(#bg)"/>
+  <rect width="1280" height="420" rx="20" fill="url(#grid)"/>
+  <rect x="56" y="54" width="6" height="26" rx="3" fill="#e8a0b4"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <text x="78" y="74" font-size="16" letter-spacing="4" fill="#e8a0b4">HEXXCORP / ENGINEERING PORTFOLIO</text>
+    <text x="56" y="150" font-size="47" font-weight="700" fill="#fffbfc">Less tab switching.</text>
+    <text x="56" y="210" font-size="47" font-weight="700" fill="#fffbfc">More review context.</text>
+    <text x="58" y="254" font-size="20" fill="#d3e3dd">Documents. Dates. Work history. One desktop workspace.</text>
+    <g font-size="14" fill="#fffbfc">
+      <rect x="58" y="286" width="66" height="32" rx="16" fill="#ffffff" fill-opacity=".1"/>
+      <text x="80" y="307">C#</text>
+      <rect x="134" y="286" width="90" height="32" rx="16" fill="#ffffff" fill-opacity=".1"/>
+      <text x="152" y="307">.NET 8</text>
+      <rect x="234" y="286" width="74" height="32" rx="16" fill="#ffffff" fill-opacity=".1"/>
+      <text x="254" y="307">WPF</text>
+      <rect x="318" y="286" width="120" height="32" rx="16" fill="#ffffff" fill-opacity=".1"/>
+      <text x="336" y="307">WebView2</text>
+    </g>
+    <text x="58" y="376" font-size="16" fill="#d3e3dd">Designed and built by Dillon O'Leary / @Hexxcraft</text>
+    <g transform="translate(870 74)">
+      <rect width="328" height="264" rx="14" fill="#0c211d" stroke="#53786b"/>
+      <path d="M0 42H328" stroke="#53786b"/>
+      <circle cx="22" cy="21" r="5" fill="#e8a0b4"/>
+      <circle cx="40" cy="21" r="5" fill="#53786b"/>
+      <circle cx="58" cy="21" r="5" fill="#53786b"/>
+      <rect x="22" y="64" width="126" height="152" rx="7" fill="#fffbfc"/>
+      <rect x="38" y="83" width="76" height="8" rx="4" fill="#285a4e"/>
+      <path d="M38 110H130M38 128H130M38 146H107M38 174H130M38 192H116" stroke="#c6d5ce" stroke-width="5"/>
+      <rect x="166" y="64" width="140" height="68" rx="7" fill="#285a4e"/>
+      <text x="181" y="89" font-size="11" letter-spacing="1" fill="#e8a0b4">REVIEW CONTEXT</text>
+      <path d="M182 106H285M182 117H250" stroke="#789c8e" stroke-width="4"/>
+      <rect x="166" y="146" width="140" height="70" rx="7" fill="#285a4e"/>
+      <text x="181" y="171" font-size="11" letter-spacing="1" fill="#e8a0b4">DATES + HISTORY</text>
+      <path d="M182 189H285M182 200H266" stroke="#789c8e" stroke-width="4"/>
+      <text x="22" y="244" font-size="11" fill="#a2bfb3">DOCUMENT REVIEW / WINDOWS DESKTOP</text>
+    </g>
+  </g>
+</svg>

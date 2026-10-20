@@ -1,0 +1,200 @@
+<UserControl x:Class="HexxcorpDocumentReviewUtility.Controls.TrackerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:HexxcorpDocumentReviewUtility.Models">
+    <UserControl.Resources>
+        <Style x:Key="TrkLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource WhiteBrush}" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,6,0" />
+        </Style>
+        <Style x:Key="TrkExp" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource GoldBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="TrkBox" TargetType="TextBox" BasedOn="{StaticResource GoldTextBoxStyle}">
+            <Setter Property="MaxLength" Value="10" />
+            <Setter Property="Margin" Value="0,2,10,2" />
+        </Style>
+        <Style x:Key="TrkCell" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource DarkTextBrush}" />
+            <Setter Property="Padding" Value="4,2" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel Margin="4">
+        <!--  Totals footer  -->
+        <Border Padding="8"
+                Background="{StaticResource NavyDarkBrush}"
+                BorderBrush="{StaticResource GoldBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                DockPanel.Dock="Bottom">
+            <StackPanel>
+                <TextBlock FontSize="12" Foreground="{StaticResource WhiteBrush}">
+                    <Run FontWeight="Bold" Foreground="{StaticResource GoldBrush}" Text="Total Work Experience:  " />
+                    <Run Text="{Binding TotalText, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{StaticResource WhiteBrush}">
+                    <Run FontWeight="Bold" Foreground="{StaticResource GoldBrush}" Text="Total OTR Experience:  " />
+                    <Run Text="{Binding OtrText, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock Margin="0,2,0,0" FontSize="11" FontStyle="Italic" Foreground="#FFCBD5E1" Text="{Binding OverlapNote, Mode=OneWay}" TextWrapping="Wrap" />
+                <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="#FFCBD5E1" TextWrapping="Wrap">
+                    <Run Text="Latest job end date: " />
+                    <Run FontWeight="Bold" Text="{Binding LatestJobEndText, Mode=OneWay}" />
+                    <Run Text="  (sent to Latest Job EV in File Dates)" />
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Margin="0,0,0,2" FontSize="15" Style="{StaticResource HeaderTextStyle}" Text="Date &amp; Work History Calculator" TextWrapping="Wrap" />
+                <TextBlock Margin="0,0,0,8" FontSize="10" Foreground="#FFCBD5E1" Text="Entered history is not independently verified. Dates use MM/dd/yyyy; totals do not represent an eligibility decision." TextWrapping="Wrap" />
+
+                <TextBlock Margin="0,0,0,8" FontSize="11" Foreground="{StaticResource WhiteBrush}"
+                           Text="History scope: all entered records. Configure any applicable review thresholds in Review Criteria." TextWrapping="Wrap" />
+
+                <Border Margin="0,0,0,8" Padding="8" Background="{StaticResource NavyLightBrush}" BorderBrush="{StaticResource GoldBrush}" BorderThickness="1" CornerRadius="4">
+                    <StackPanel>
+                        <TextBlock Margin="0,0,0,4" Style="{StaticResource TrkLabel}" Text="Interactive Date Calculator" />
+                        <StackPanel Orientation="Horizontal">
+                            <DatePicker Width="140" SelectedDate="{Binding CalcTargetDate, Mode=TwoWay}" Style="{StaticResource GoldDatePickerStyle}" />
+                            <TextBlock Margin="10,0,4,0" Style="{StaticResource TrkLabel}" Text="+/- Days:" />
+                            <Button Width="22" Height="24" Padding="0" Click="CalcMinus_Click" Content="-" />
+                            <TextBox Width="54" Margin="2,0" MaxLength="6" PreviewTextInput="CalcOffset_PreviewTextInput" Style="{StaticResource GoldTextBoxStyle}" Text="{Binding CalcDayOffset, UpdateSourceTrigger=PropertyChanged}" />
+                            <Button Width="22" Height="24" Padding="0" Click="CalcPlus_Click" Content="+" />
+                        </StackPanel>
+                        <TextBlock Margin="0,6,0,0" FontSize="12" Foreground="{StaticResource WhiteBrush}">
+                            <Run FontWeight="Bold" Foreground="{StaticResource GoldBrush}" Text="Resulting Date:  " />
+                            <Run Text="{Binding CalcResultText, Mode=OneWay}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="DatesBlock" Padding="8" Background="{StaticResource NavyLightBrush}" BorderBrush="{StaticResource GoldBrush}" BorderThickness="1" CornerRadius="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" MinWidth="120" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TrkLabel}" Text="Date Entry:" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding DtDate, UpdateSourceTrigger=LostFocus}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TrkLabel}" Text="Record Date:" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding MvrRan, UpdateSourceTrigger=LostFocus}" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TrkLabel}" Text="Fingerprint Date:" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding FpRan, UpdateSourceTrigger=LostFocus}" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TrkLabel}" Text="Snapshot Date:" />
+                        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding PspSnapshot, UpdateSourceTrigger=LostFocus}" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TrkLabel}" Text="Record Run Date:" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding PspRan, UpdateSourceTrigger=LostFocus}" />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource TrkLabel}" Text="Medical Expiration:" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding PhysicalExp, UpdateSourceTrigger=LostFocus}" />
+                    </Grid>
+                </Border>
+
+                <Border x:Name="InfoTypeBlock" Margin="0,8,0,0" Padding="8" Background="{StaticResource NavyLightBrush}" BorderBrush="{StaticResource GoldBrush}" BorderThickness="1" CornerRadius="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" MinWidth="80" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,2" FontSize="11" FontWeight="Bold" Foreground="{StaticResource GoldBrush}" Text="INFORMATION TYPE  /  DATE" />
+                        <TextBlock Grid.Row="1" Style="{StaticResource TrkLabel}" Text="Certification Date" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding Certification, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Grid.Row="2" Style="{StaticResource TrkLabel}" Text="CDLIS / DAC" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding CdlisDac, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Grid.Row="3" Style="{StaticResource TrkLabel}" Text="Confirmation IA / Limited Consent" />
+                        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding LimitedConsent, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Grid.Row="4" Style="{StaticResource TrkLabel}" Text="Clearinghouse / Full Consent" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource TrkBox}" Text="{Binding FullConsent, UpdateSourceTrigger=LostFocus}" />
+                    </Grid>
+                </Border>
+
+                <DockPanel Margin="0,10,0,4" LastChildFill="False">
+                    <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left" FontSize="13" Style="{StaticResource HeaderTextStyle}" Text="Employment History" />
+                    <Button Margin="4,0,0,0" Padding="8,3" Click="ClearButton_Click" Content="Clear" DockPanel.Dock="Right" FontSize="11" Style="{StaticResource OutlineButtonStyle}" />
+                    <Button Margin="4,0,0,0" Padding="8,3" Click="AddRowButton_Click" Content="+ Row" DockPanel.Dock="Right" FontSize="11" Style="{StaticResource OutlineButtonStyle}" />
+                    <Button Padding="8,3" Click="PasteButton_Click" Content="Paste Table" DockPanel.Dock="Right" FontSize="11" Style="{StaticResource GoldButtonStyle}" ToolTip="Paste rows copied from Excel or a web table: Description, OTR?, Start, End" />
+                </DockPanel>
+
+                <DataGrid x:Name="RowsGrid"
+                          Height="300"
+                          AutoGenerateColumns="False"
+                          Background="White"
+                          BorderBrush="{StaticResource GoldBrush}"
+                          CanUserAddRows="False"
+                          CanUserSortColumns="False"
+                          GridLinesVisibility="All"
+                          HeadersVisibility="Column"
+                          HorizontalGridLinesBrush="#FFCBD5E1"
+                          VerticalGridLinesBrush="#FFCBD5E1"
+                          ItemsSource="{Binding Rows}"
+                          PreviewKeyDown="RowsGrid_PreviewKeyDown"
+                          PreviewMouseWheel="RowsGrid_PreviewMouseWheel"
+                          RowBackground="White"
+                          AlternatingRowBackground="#FFF1F5F9"
+                          SelectionUnit="CellOrRowHeader">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="{StaticResource GoldBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource DarkTextBrush}" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Padding" Value="4,3" />
+                            <Setter Property="BorderBrush" Value="{StaticResource NavyBrush}" />
+                            <Setter Property="BorderThickness" Value="0,0,1,0" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" MinWidth="110" Binding="{Binding Description, UpdateSourceTrigger=LostFocus}" Header="Description">
+                            <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock" BasedOn="{StaticResource TrkCell}" /></DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridCheckBoxColumn Width="48" Binding="{Binding IsOtr, UpdateSourceTrigger=PropertyChanged}" Header="OTR?">
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="CheckBox">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                            </DataGridCheckBoxColumn.ElementStyle>
+                            <DataGridCheckBoxColumn.EditingElementStyle>
+                                <Style TargetType="CheckBox">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                            </DataGridCheckBoxColumn.EditingElementStyle>
+                        </DataGridCheckBoxColumn>
+                        <DataGridTextColumn Width="86" Binding="{Binding Start, UpdateSourceTrigger=LostFocus}" Header="Start Date">
+                            <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock" BasedOn="{StaticResource TrkCell}" /></DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="86" Binding="{Binding End, UpdateSourceTrigger=LostFocus}" Header="End Date">
+                            <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock" BasedOn="{StaticResource TrkCell}" /></DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="46" Binding="{Binding Months, Mode=OneWay}" Header="Exp." IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock" BasedOn="{StaticResource TrkCell}" /></DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="46" Binding="{Binding OtrMonths, Mode=OneWay}" Header="OTR" IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock" BasedOn="{StaticResource TrkCell}" /></DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Margin="0,4,0,0" FontSize="10" Foreground="#FFCBD5E1" Text="Exp./OTR columns show each line's own months; the totals below remove overlaps so concurrent jobs never add extra months. Click a cell and press Ctrl+V to paste a table." TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>
